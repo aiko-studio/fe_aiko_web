@@ -1,6 +1,8 @@
 <script>
   import { onMount, getContext } from "svelte";
   import monacoDefined from "../lib/monacoDefined";
+  import AIKO_EXAMPLES from  "../lib/examples";
+  import ASM_DOCS from "../lib/asmDocs";
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -23,6 +25,8 @@
   // --- 2. STATE VARIABLES (Menggunakan Runes) ---
   let isCompiling = $state(false);
   let consoleOutput = $state("Ready to transpile...");
+
+  let terminalInput = $state(""); // Untuk menampung apa yang diketik user
   
   // New Feature States
   let fullAsmCode = $state("");       
@@ -30,6 +34,23 @@
   let headerOffset = $state(0);       // menyimpan offset (misal: 12)
   let isFiltered = $state(false);     
   let currentDecorations = []; // Tidak perlu reactive state untuk objek internal Monaco
+
+
+  // Fungsi untuk memuat kode ke editor
+  function loadExample(event) {
+    const selectedCode = event.target.value;
+    if (!selectedCode) return;
+
+    // Konfirmasi jika editor tidak kosong (opsional)
+    if (inputEditor.getValue().trim() !== "" && !confirm("Overwrite current code?")) {
+      event.target.value = ""; // Reset dropdown
+      return;
+    }
+
+    inputEditor.setValue(selectedCode);
+    resetView(); // Reset tampilan output/highlighting
+    event.target.value = ""; // Reset dropdown setelah load
+  }
 
   // --- 3. THEME LOGIC VIA EFFECT ---
   // Mengganti toggleTheme manual dengan Effect yang memantau perubahan Context
@@ -54,11 +75,39 @@
     
     // Kita asumsikan monacoDefined sudah menghandle theme di parameter ketiga atau via setOptions
     // Jika tidak, set manual setelah init.
-    inputEditor = await monacoDefined(inputContainer, "var x = 10;\nprint(x);", "javascript");
-    outputEditor = await monacoDefined(outputContainer, "; Assembly output will be here", "assembly");
+    inputEditor = await monacoDefined(inputContainer, "var x = 10;\nprint(x);", "aiko", isDark);
+    outputEditor = await monacoDefined(outputContainer, "; Assembly output will be here", "assembly", isDark);
     
     // Paksa tema saat mount agar sinkron
-    if (window.monaco) window.monaco.editor.setTheme(initialTheme);
+    if (!window.__assemblyHoverRegistered) {
+      monaco.languages.registerHoverProvider('assembly', {
+        provideHover: function (model, position) {
+          // Ambil kata di bawah kursor
+          const word = model.getWordAtPosition(position);
+          if (!word) return null;
+          const instruction = word.word.toUpperCase();
+          const description = ASM_DOCS[instruction];
+          if (description) {
+            return {
+              range: new monaco.Range(
+                position.lineNumber,
+                word.startColumn,
+                position.lineNumber,
+                word.endColumn
+              ),
+              contents: [
+                { value: `**Instruction: ${instruction}**` },
+                { value: description }
+              ]
+            };
+          }
+          return null;
+        }
+      });
+      
+      // Set flag menjadi true agar tidak terduplikasi saat file disave ulang (HMR)
+      window.__assemblyHoverRegistered = true;
+    }
 
     outputEditor.updateOptions({ readOnly: true });
     
@@ -72,22 +121,36 @@
   // Main Compile Function
   async function run() {
     if (isCompiling) return;
+
+    const code = inputEditor.getValue();
+    const usesInput = /\binput\s*\(/.test(code);
     
+    if (usesInput && terminalInput.trim() === "") {
+      consoleOutput = "> [ERROR] Kode ini memerlukan input data!\n> Silakan isi data di bagian 'Standard Input' pada Terminal Console di bawah sebelum menekan tombol RUN CODE.";
+      return; // Hentikan eksekusi, jangan lanjut fetch ke backend
+    }
+
     isCompiling = true;
     consoleOutput = "> Processing...";
     resetView(); 
     
     try {
-      const code = inputEditor.getValue();
       const res = await fetch(`${API_URL}/api/transpile`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code }),
+        body: JSON.stringify({ code, userInput: terminalInput }),
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Server Error");
 
+      if (!res.ok) {
+          // Tampilkan pesan error di terminal console bawah
+          consoleOutput = data.logs || `> Error: ${data.error}`;
+          fullAsmCode = "; Compilation Error. Check terminal below.";
+          outputEditor.setValue(fullAsmCode);
+          isCompiling = false;
+          return; 
+      }
       fullAsmCode = data.asm || "; No output generated";
       
       // Ambil data sesuai format JSON Backend kamu:
@@ -105,7 +168,7 @@
       });
 
     } catch (e) {
-      consoleOutput = `> Error: ${e.message}`;
+      consoleOutput = `> Network Error: ${e.message}`;
       fullAsmCode = "";
     } finally {
       isCompiling = false;
@@ -188,7 +251,8 @@
         options: {
           isWholeLine: true,
           className: isDark ? 'bg-indigo-500/20' : 'bg-indigo-100',
-          linesDecorationsClassName: 'w-1 h-full bg-indigo-500' 
+          linesDecorationsClassName: 'w-1 h-full bg-indigo-500',
+          zIndex: 1
         }
       }
     ]);
@@ -201,6 +265,12 @@
     if (inputEditor) currentDecorations = inputEditor.deltaDecorations(currentDecorations, []);
   }
 </script>
+
+
+<svelte:head>
+  <title>Aiko Playground</title>
+</svelte:head>
+
 
 <div class="min-h-screen transition-colors duration-300 {isDark ? 'bg-[#0f0f12] text-zinc-100' : 'bg-zinc-50 text-zinc-900'} p-4 md:p-8 font-sans">
   <div class="max-w-8xl mx-auto flex flex-col gap-6">
@@ -230,6 +300,18 @@
       <div class="flex flex-col rounded-2xl border overflow-hidden shadow-sm {isDark ? 'bg-[#18181b] border-zinc-800' : 'bg-white border-zinc-200'}">
         <div class="px-5 py-3 border-b flex justify-between items-center {isDark ? 'border-zinc-800 bg-zinc-900/50 text-zinc-400' : 'border-zinc-100 bg-zinc-50 text-zinc-500'}">
           <span class="text-[10px] font-black tracking-[0.2em] uppercase">Input (Aiko)</span>
+          
+          <select 
+            onchange={loadExample}
+            class="text-sm font-bold bg-transparent border-none focus:ring-0 cursor-pointer outline-none hover:text-indigo-500 transition-colors uppercase tracking-wider"
+          >
+            <option value="" disabled selected>Load Example</option>
+            {#each AIKO_EXAMPLES as example}
+              <option value={example.code} class={isDark ? 'bg-zinc-900 text-zinc-300' : 'bg-white text-zinc-600'}>
+                {example.name}
+              </option>
+            {/each}
+          </select>
         </div>
         <div bind:this={inputContainer} class="flex-1"></div>
       </div>
@@ -265,11 +347,24 @@
     </main>
 
     <footer class="rounded-2xl border overflow-hidden {isDark ? 'bg-[#18181b] border-zinc-800' : 'bg-white border-zinc-200'}">
-      <div class="px-5 py-2 border-b {isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-zinc-100 bg-zinc-50'}">
+      <div class="px-5 py-2 border-b flex justify-between items-center {isDark ? 'border-zinc-800 bg-zinc-900/50' : 'border-zinc-100 bg-zinc-50'}">
         <span class="text-[10px] font-black tracking-[0.2em] uppercase opacity-50">Terminal Console</span>
+        <span class="text-[9px] font-bold text-indigo-500 uppercase tracking-widest">Interactive Session</span>
       </div>
-      <div class="p-4 h-32 overflow-y-auto font-mono text-sm {isDark ? 'bg-black/20 text-indigo-300' : 'bg-indigo-50/30 text-indigo-800'}">
-        <pre class="whitespace-pre-wrap">{consoleOutput}</pre>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 h-40 font-mono text-sm">
+        <div class="p-4 overflow-y-auto {isDark ? 'bg-black/20 text-indigo-300' : 'bg-indigo-50/30 text-indigo-800'} border-r {isDark ? 'border-zinc-800' : 'border-zinc-100'}">
+          <pre class="whitespace-pre-wrap">{consoleOutput}</pre>
+        </div>
+        
+        <div class="relative flex flex-col bg-transparent">
+          <div class="absolute top-2 right-3 text-[9px] uppercase font-bold opacity-30 pointer-events-none">Standard Input</div>
+          <textarea 
+            bind:value={terminalInput}
+            placeholder="Type inputs here (one per line)..."
+            class="w-full h-full p-4 bg-transparent outline-none resize-none {isDark ? 'text-emerald-400 placeholder-zinc-700' : 'text-emerald-600 placeholder-zinc-400'}"
+          ></textarea>
+        </div>
       </div>
     </footer>
 

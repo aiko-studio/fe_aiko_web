@@ -16,11 +16,11 @@
 
     const codeExample = `fun main() {
   # Deklarasi variable
-  var message = [10, 99, 676, 444];
+  var array = [10, 99, 676, 444];
   
   # Loop syntax
-  for item in message when item > 100 {
-      print(message);
+  for item in array when item > 100 {
+      print(item);
   }
 }
 
@@ -58,7 +58,7 @@ main();`;
                     Get Started
                 </a>
                 
-                <a href="https://playground.aiko-lang.org" target="_blank" class="inline-flex items-center justify-center rounded-xl border px-6 py-3 text-base font-bold shadow-sm transition-all
+                <a href="/" class="inline-flex items-center justify-center rounded-xl border px-6 py-3 text-base font-bold shadow-sm transition-all
                     {isDark 
                         ? 'border-zinc-700 bg-zinc-800 text-zinc-200 hover:bg-zinc-700' 
                         : 'border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900 hover:border-zinc-300'}">
@@ -89,11 +89,15 @@ main();`;
                     ? 'border-zinc-800 bg-zinc-900/30 hover:border-indigo-500/30 hover:bg-indigo-500/5' 
                     : 'border-zinc-200 bg-white hover:border-indigo-200 hover:bg-indigo-50/30'}">
                 <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg {isDark ? 'bg-indigo-500/10 text-indigo-400' : 'bg-indigo-100 text-indigo-600'}">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
                 </div>
-                <h3 class="text-lg font-bold {isDark ? 'text-zinc-100' : 'text-zinc-900'}">Smart Memory</h3>
+                
+                <h3 class="text-lg font-bold {isDark ? 'text-zinc-100' : 'text-zinc-900'}">Transparent Memory</h3>
+                
                 <p class="mt-2 text-sm leading-relaxed {isDark ? 'text-zinc-400' : 'text-zinc-600'}">
-                    Pendekatan manajemen memori novel yang aman seperti Rust, namun tanpa kurva belajar "borrow checker".
+                    Pahami manajemen memori secara transparan. Pelajari konsep Stack dan Heap tanpa abstraksi yang rumit.
                 </p>
             </div>
 

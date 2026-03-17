@@ -13,9 +13,9 @@
     };
 
     let nextStep = { 
-        title: "Home", 
-        href: "/docs/",
-        desc: "Kembali ke halaman awal dokumentasi." 
+        title: "Input", 
+        href: "/docs/inputs",
+        desc: "Mengambil input dari user." 
     };
 
     // Contoh Kode
@@ -65,7 +65,7 @@ main();`;
                 Gunakan keyword <code class="text-rose-500 font-bold">fun</code> untuk mendefinisikan fungsi. Parameter didefinisikan di dalam kurung dengan format <code>nama</code>.
             </p>
             <p>
-                Jika fungsi mengembalikan nilai, tipe kembalian (Return Type) tidak eksplisit ditulis tutup kurung parameter.
+                Jika fungsi mengembalikan nilai, tipe kembalian (Return Type) tidak perlu dibuat karna akan ditentukan oleh compiler.
             </p>
 
             <div class="not-prose my-6">

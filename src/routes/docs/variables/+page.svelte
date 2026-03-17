@@ -28,7 +28,7 @@ var isActive = true; # Terdeteksi sebagai bool`;
 
     const codeConst = `# Variable Mutable (Bisa diubah)
 var score = 100;
-score = 200; // OK
+score = 200; # OK
 
 # Immutable (Konstan) - Belum diimplementasi di Alpha
 # const PI = 3.14;`;

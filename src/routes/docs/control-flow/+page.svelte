@@ -72,7 +72,7 @@ for x in data when x > 10 {
             
             <h3>If Expressions</h3>
             <p>
-                Aiko menggunakan sintaks C-Style klasik untuk logika percabangan. Anda wajib menggunakan kurung kurawal <code>&#123; &#125;</code> untuk setiap blok kode, bahkan jika isinya hanya satu baris.
+                Aiko menggunakan sintaks C-Style klasik untuk logika percabangan. Wajib menggunakan kurung kurawal <code>&#123; &#125;</code> untuk setiap blok kode, bahkan jika isinya hanya satu baris.
             </p>
             <div class="not-prose my-6">
                 <DocCodeBlock code={codeIf} filename="logic.aiko" />
@@ -80,7 +80,7 @@ for x in data when x > 10 {
 
             <h3>Loops & Iteration</h3>
             <p>
-                Looping di Aiko didesain untuk keterbacaan tinggi. Anda dapat melakukan iterasi pada Array atau struktur data lainnya menggunakan keyword <code class="text-rose-500 font-bold">in</code>.
+                Looping di Aiko didesain untuk keterbacaan tinggi. Iterasi dapat dilakukan pada Array atau struktur data lainnya menggunakan <code class="text-rose-500 font-bold">index</code> atau keyword <code class="text-rose-500 font-bold">in</code>.
             </p>
             
             <div class="my-6 p-4 rounded-xl border-l-4 border-emerald-500 transition-colors {isDark ? 'bg-emerald-500/10' : 'bg-emerald-50'}">

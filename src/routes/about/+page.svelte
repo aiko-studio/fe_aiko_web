@@ -25,26 +25,32 @@
         { 
             status: "done", 
             date: "Aug 2025", 
-            title: "Public Alpha", 
-            desc: "Rilis Playground pertama untuk testing publik dan feedback komunitas." 
+            title: "Public Alpha (Interactive)", 
+            desc: "Peluncuran Playground pertama agar pengguna dapat bereksperimen langsung dengan sintaks Aiko di browser." 
+        },
+        { 
+            status: "done", 
+            date: "Dec 2025", 
+            title: "Stability & Bug Fixes", 
+            desc: "Pembersihan bug kritis pada transpiler untuk memastikan hasil assembly yang akurat bagi pengguna." 
         },
         { 
             status: "current", 
-            date: "Dec 2025", 
+            date: "Mar 2025", 
             title: "Alpha Refinement", // 'Revisi' diganti 'Refinement' (penyempurnaan)
             desc: "Optimasi arsitektur compiler dan perbaikan bug berdasarkan feedback." 
         },
         { 
             status: "future", 
             date: "-", 
-            title: "Ecosystem Expansion", // Std Lib = Ekosistem
-            desc: "Implementasi Standard Library lengkap: I/O, Networking, dan Async." 
+            title: "Robust Error Handling", 
+            desc: "Implementasi sistem penanganan error yang komprehensif untuk meningkatkan pengalaman debugging." 
         },
         { 
             status: "future", 
             date: "-", 
-            title: "Stable Release", 
-            desc: "Aiko v1.0 siap untuk production environment." 
+            title: "Educational Release", 
+            desc: "Versi stabil dengan dokumentasi kurikulum lengkap, siap digunakan sebagai alat bantu belajar bahasa tingkat rendah." 
         },
     ];
 </script>
