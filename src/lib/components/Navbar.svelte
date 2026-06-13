@@ -7,7 +7,6 @@
 
     let isMenuOpen = $state(false);
 
-    // Dapatkan URL saat ini (tanpa arrow function agar reactive langsung di template)
     const isHome = $derived(page.url.pathname === '/');
     const isDocs = $derived(page.url.pathname.startsWith('/docs'));
 

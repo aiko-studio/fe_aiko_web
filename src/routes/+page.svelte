@@ -111,10 +111,24 @@
 
     outputEditor.updateOptions({ readOnly: true });
     
-    // Event Listener: Cursor Move
-    inputEditor.onDidChangeCursorPosition((e) => {
-      console.log("woi");
-      handleCursorChange(e.position.lineNumber);
+    // // Event Listener: Cursor Move
+    inputEditor.onMouseDown((e) => {
+      if (e.target.position) {
+        handleCursorChange(e.target.position.lineNumber);
+      }
+    });
+
+    // 2. Kembalikan ke tampilan normal (reset) saat user mulai mengetik kode baru
+    inputEditor.onDidChangeModelContent(() => {
+      // Hanya jalankan reset jika sedang dalam mode terfilter
+      if (isFiltered || currentDecorations.length > 0) {
+        resetView();
+      }
+      
+      // Opsional tapi disarankan: 
+      // Kosongkan mapping jika kode diubah, karena letak barisnya pasti bergeser.
+      // Ini mencegah hasil filter yang "salah baris" sebelum di-RUN ulang.
+      sourceMap = [];
     });
   });
 
