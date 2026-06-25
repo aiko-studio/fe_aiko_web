@@ -35,22 +35,28 @@
             desc: "Pembersihan bug kritis pada transpiler untuk memastikan hasil assembly yang akurat bagi pengguna." 
         },
         { 
-            status: "current", 
-            date: "Mar 2025", 
-            title: "Alpha Refinement", // 'Revisi' diganti 'Refinement' (penyempurnaan)
+            status: "done", 
+            date: "Mar 2026", 
+            title: "Alpha Refinement",
             desc: "Optimasi arsitektur compiler dan perbaikan bug berdasarkan feedback." 
         },
         { 
-            status: "future", 
-            date: "-", 
+            status: "done", 
+            date: "April 2026", 
             title: "Robust Error Handling", 
-            desc: "Implementasi sistem penanganan error yang komprehensif untuk meningkatkan pengalaman debugging." 
+            desc: "Implementasi sistem penanganan error sederhana untuk meningkatkan pengalaman debugging." 
         },
         { 
-            status: "future", 
-            date: "-", 
+            status: "done", 
+            date: "Juni 2026", 
             title: "Educational Release", 
             desc: "Versi stabil dengan dokumentasi kurikulum lengkap, siap digunakan sebagai alat bantu belajar bahasa tingkat rendah." 
+        },
+        { 
+            status: "current", 
+            date: "Ongoing", 
+            title: "Maintain & Feedback Loop", 
+            desc: "Fokus pada pemantauan stabilitas sistem, pengumpulan feedback dari pengguna, dan perbaikan bug jika ditemukan." 
         },
     ];
 </script>
