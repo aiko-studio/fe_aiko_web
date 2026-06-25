@@ -13,9 +13,9 @@
     };
 
     let nextStep = { 
-        title: "Functions", 
-        href: "/docs/functions",
-        desc: "Membuat kode modular dengan Function." 
+        title: "Arrays", 
+        href: "/docs/arrays",
+        desc: "Struktur data array beralokasi statis." 
     };
 
     // Contoh Kode
@@ -48,6 +48,9 @@ for x in data {
 for x in data when x > 10 {
     print(x);
 }`;
+
+    const codeView = `var data = [10, 25, 40, 5];
+print(view data); # alamat variabel data`;
 </script>
 
 <svelte:head>
@@ -91,6 +94,15 @@ for x in data when x > 10 {
 
             <div class="not-prose my-6">
                 <DocCodeBlock code={codeLoop} filename="loops.aiko" />
+            </div>
+
+            <h3>Advanced Unary: View Keyword</h3>
+            <p>
+                Gunakan keyword ekspresi unary baru <code class="text-rose-500 font-bold">view</code> untuk memeriksa representasi atau kondisi entitas variabel secara mentah langsung dari pipeline instruksi parser.
+            </p>
+
+            <div class="not-prose my-6">
+                <DocCodeBlock code={codeView} filename="views.aiko" />
             </div>
 
         </article>

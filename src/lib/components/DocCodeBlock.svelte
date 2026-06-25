@@ -34,7 +34,7 @@
                 /(\#.*)/.source,                                           // Group 1: Comments (//...)
                 /(".*?")/.source,                                            // Group 2: Strings ("...")
                 /(\b\d+\b)/.source,                                          // Group 3: Numbers (10, 99)
-                /(\b(?:fun|var|for|in|when|if|else|elif|return|len)\b)/.source,// Group 4: Keywords
+                /(\b(?:fun|var|val|for|in|when|if|else|elif|return|len|array|view)\b)/.source,// Group 4: Keywords
                 /(\b(?:main|print|print|input)\b)/.source,                       // Group 5: Functions
                 /(\b(?:true|false|int|string|bool)\b)/.source,                      // Group 6: Types
             ].join('|'),

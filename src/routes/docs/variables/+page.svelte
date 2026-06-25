@@ -30,8 +30,9 @@ var isActive = true; # Terdeteksi sebagai bool`;
 var score = 100;
 score = 200; # OK
 
-# Immutable (Konstan) - Belum diimplementasi di Alpha
-# const PI = 3.14;`;
+# Immutable (Konstan)
+val PI = 3.14;
+PI = 3.53; # ERROR`;
 </script>
 
 <svelte:head>
@@ -78,11 +79,22 @@ score = 200; # OK
                     <span class="font-bold text-yellow-400">bool</span>
                     <p class="text-sm mt-1 opacity-70">Nilai boolean true atau false.</p>
                 </li>
+                <li class="p-4 rounded-xl border {isDark ? 'bg-zinc-900/50 border-zinc-800' : 'bg-zinc-50 border-zinc-200'}">
+                    <span class="font-bold text-yellow-400">Array</span>
+                    <p class="text-sm mt-1 opacity-70">Koleksi struktur data dengan referensi alamat memori.</p>
+                </li>
+                <li class="p-4 rounded-xl border {isDark ? 'bg-zinc-900/50 border-zinc-800' : 'bg-zinc-50 border-zinc-200'}">
+                    <span class="font-bold text-rose-400">Null (Type ID: 9)</span>
+                    <p class="text-sm mt-1 opacity-70">Keyword primitif penanda nilai kosong atau tidak terisi.</p>
+                </li>
             </ul>
 
-            <h3>Mutability</h3>
+            <h3>Mutability & Constants</h3>
             <p>
-                Secara default, variabel yang dideklarasikan dengan <code>var</code> bersifat <em>mutable</em> (bisa diubah nilainya).
+                Variabel <code class="text-rose-500 font-bold">var</code> bersifat <em>mutable</em> (nilainya dapat diubah kembali). Parser juga aman menangani skenario pembaruan mandiri seperti <code>x = x + 1</code>.
+            </p>
+            <p>
+                Untuk membuat penanda nilai bersifat konstan dan aman dari proses penulisan ulang memori, gunakan keyword <code class="text-rose-500 font-bold">val</code>.
             </p>
             <div class="not-prose my-6">
                 <DocCodeBlock code={codeConst} filename="mutability.aiko" />

@@ -13,7 +13,7 @@ export default function monacoDefined(container, code, lang = "aiko", isDark = t
               [/#.*/, "comment"],
               [/\/\/.*/, "comment"],
               [/(\.\.)/, "operator.range"],
-              [/\b(var|val|fun|if|elif|else|for|print|int|bool|str|input|typeof|len|array)\b/, "keyword"],
+              [/\b(var|val|fun|if|elif|else|for|print|int|bool|str|input|typeof|len|array|view)\b/, "keyword"],
 
               [/\b(true|false|null)\b/, "constant.boolean"],
               [/"/, { token: "string.quote", next: "@interpolated_string" }],

@@ -40,7 +40,7 @@ main();`;
             <div class="flex items-center gap-2">
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider 
                     {isDark ? 'bg-rose-500/10 text-rose-400' : 'bg-rose-100 text-rose-600'}">
-                    v0.1.0 Alpha
+                    v2.4.0 Release
                 </span>
             </div>
             

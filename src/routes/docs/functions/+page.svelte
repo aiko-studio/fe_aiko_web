@@ -7,9 +7,9 @@
     const isDark = $derived(themeCtx?.isDark ?? true);
 
     let prevStep = { 
-        title: "Control Flow", 
-        href: "/docs/control-flow",
-        desc: "Logika percabangan dan perulangan." 
+        title: "Arrays", 
+        href: "/docs/arrays",
+        desc: "Struktur data array beralokasi statis." 
     };
 
     let nextStep = { 
